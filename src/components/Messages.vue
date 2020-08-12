@@ -6,7 +6,7 @@
           <v-toolbar-title>Message list</v-toolbar-title>
         </v-toolbar>
         <v-list>
-          <v-list-item v-for="message in store.state.messages" :key="message">
+          <v-list-item v-for="message in $store.state.messages" :key="message">
             <!-- <v-list-item-icon>
           <v-icon v-if="message.icon" color="pink">mdi-star</v-icon>
             </v-list-item-icon>-->
@@ -26,20 +26,10 @@
 </template>
 
 <script>
-import axios from "axios";
-import store from "../store.js";
-
 export default {
-  name: "Messages",
-  data() {
-    return {
-      store: store,
-    };
-  },
+  name: 'Messages',
   created() {
-    axios
-      .get("http://localhost:3000/messages")
-      .then((response) => (store.state.messages = response.data));
+    this.$store.dispatch('getMessages');
   },
 };
 </script>

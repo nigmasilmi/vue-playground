@@ -8,7 +8,11 @@
               <v-toolbar color="grey lighten-3">
                 <v-toolbar-title>Write a new message</v-toolbar-title>
               </v-toolbar>
-              <v-text-field v-model="msgBody" label="Message" required></v-text-field>
+              <v-text-field
+                v-model="msgBody"
+                label="Message"
+                required
+              ></v-text-field>
             </v-col>
           </v-row>
           <v-btn class="mr-4" @click="submitMsg">submit</v-btn>
@@ -20,27 +24,17 @@
 </template>
 
 <script>
-import axios from "axios";
-import store from "../store.js";
 export default {
-  name: "NewMessage",
+  name: 'NewMessage',
   data() {
     return {
-      msgBody: "",
+      msgBody: '',
     };
   },
   methods: {
-    async submitMsg() {
-      try {
-        let theMessage = await axios.post("http://localhost:3000/messages", {
-          title: this.msgBody,
-        });
-        console.log("this is the response", theMessage);
-        store.state.messages.push(theMessage.data.title);
-        this.msgBody = "";
-      } catch (error) {
-        console.error(error);
-      }
+    submitMsg() {
+      this.$store.dispatch('postNewMessage', this.msgBody);
+      this.msgBody = '';
     },
   },
 };
