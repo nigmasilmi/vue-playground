@@ -27,17 +27,22 @@
 
 <script>
 import axios from 'axios';
+import store from '../store.js';
+
 export default {
   name: 'Messages',
   data() {
     return {
-      messages: [],
+      messages: store.state.messages,
     };
   },
   created() {
     axios
       .get('http://localhost:3000/messages')
-      .then((response) => (this.messages = response.data));
+      .then((response) => (store.state.messages = response.data));
+    this.$root.$on('newMsgEvent', (message) => {
+      this.messages.push(message);
+    });
   },
 };
 </script>

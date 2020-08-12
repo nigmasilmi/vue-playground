@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'NewMessage',
   data() {
@@ -32,9 +33,17 @@ export default {
     };
   },
   methods: {
-    submitMsg() {
-      console.log('you typed: ', this.msgBody);
-      this.msgBody = '';
+    async submitMsg() {
+      try {
+        let theMessage = await axios.post('http://localhost:3000/messages', {
+          title: this.msgBody,
+        });
+        console.log(theMessage);
+        this.$root.$emit('newMsgEvent', theMessage.data.title);
+        this.msgBody = '';
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
