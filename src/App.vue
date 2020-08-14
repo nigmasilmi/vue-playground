@@ -1,15 +1,18 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="pink darken-2" dark>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Vue Playground</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn dark to="/asteroids" color="lime darken-1">Asteroids</v-btn>
+      <v-btn to="/messages" dark color="light-green darken-2">Messages</v-btn>
       <v-spacer></v-spacer>
     </v-app-bar>
 
     <v-main>
       <v-container>
-        <NewMessage />
-        <v-spacer></v-spacer>
-        <br />
-        <Messages />
+        <router-view />
       </v-container>
       <!-- <Asteroids/> -->
     </v-main>
@@ -18,15 +21,13 @@
 
 <script>
 // import Asteroids from './components/Asteroids.vue';
-import Messages from './components/Messages.vue';
-import NewMessage from './components/NewMessage.vue';
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    Messages,
-    NewMessage,
+    // Messages,
+    // NewMessage,
     // Asteroids,
   },
 
