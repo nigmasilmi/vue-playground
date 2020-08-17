@@ -15,7 +15,10 @@
       <v-container>
         <router-view />
       </v-container>
-      <!-- <Asteroids/> -->
+      <v-snackbar
+        color="pink darken-3"
+        v-model="$store.state.errorMod.showError"
+      >{{$store.state.errorMod.errorText}}</v-snackbar>
     </v-main>
   </v-app>
 </template>
@@ -24,16 +27,6 @@
 // import Asteroids from './components/Asteroids.vue';
 
 export default {
-  name: 'App',
-
-  components: {
-    // Messages,
-    // NewMessage,
-    // Asteroids,
-  },
-
-  data: () => ({
-    //
-  }),
+  name: "App",
 };
 </script>

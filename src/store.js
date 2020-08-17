@@ -5,6 +5,20 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
+const errorSys = {
+    state: {
+        showError: false,
+        errorText: "Error",
+
+    },
+    mutations: {
+        showTheError(state, errMesg) {
+            state.showError = true;
+            state.errorText = errMesg;
+        }
+    }
+};
+
 export default new Vuex.Store({
     // state equals the data
     state: {
@@ -13,7 +27,8 @@ export default new Vuex.Store({
         currentUser: '',
         users: [],
         token: localStorage.getItem('token') || '',
-        students: []
+        students: [],
+
     },
     getters: {
         students: state => state.students.map(stu => ({ ...stu, fullName: stu.name + ' ' + stu.lastname })),
@@ -49,6 +64,11 @@ export default new Vuex.Store({
             state.students.push(newStudent);
             console.log('students en store:', state.students);
         },
+        setTheUpdatedStudent(state, updatedData) {
+            let theIndex = updatedData.id;
+            Vue.set(state.students, theIndex, updatedData);
+        },
+
 
 
 
@@ -98,15 +118,27 @@ export default new Vuex.Store({
             axios.get('http://localhost:3000/students').then((res) => {
                 let studentsComing = res.data.students;
                 commit('fillStudents', studentsComing);
-            });
+            }).catch(err => commit('showTheError', err));
+
+
         },
         newStudent({ commit }) {
             axios.post('http://localhost:3000/students').then(res => {
                 let newStudent = res.data;
                 commit('addNewStudent', newStudent);
             });
+        },
+        updateStudent({ commit }, updateData) {
+            axios
+                .put(`http://localhost:3000/students/${updateData.id}`, updateData)
+                .then((res) => {
+                    commit("setTheUpdatedStudent", res.data);
+                });
         }
 
-
+    },
+    modules: {
+        errorMod: errorSys
     }
+
 });

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import Students from "./Students";
 import { mapGetters } from "vuex";
 
@@ -47,17 +47,25 @@ export default {
     ...mapGetters(["isLoaded"]),
   },
   methods: {
+    // submit() {
+    //   axios
+    //     .put(`http://localhost:3000/students/${this.$route.params.id}`, {
+    //       name: this.student.name,
+    //       lastname: this.student.lastname,
+    //       id: this.$route.params.id,
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //       this.$store.dispatch("getStudents");
+    //     });
+    // },
     submit() {
-      axios
-        .put(`http://localhost:3000/students/${this.$route.params.id}`, {
-          name: this.student.name,
-          lastname: this.student.lastname,
-          id: this.$route.params.id,
-        })
-        .then((res) => {
-          console.log(res);
-          this.$store.dispatch("getStudents");
-        });
+      let updateData = {
+        name: this.student.name,
+        lastname: this.student.lastname,
+        id: this.$route.params.id,
+      };
+      this.$store.dispatch("updateStudent", updateData);
     },
   },
   components: {
