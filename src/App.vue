@@ -7,6 +7,7 @@
       <v-spacer></v-spacer>
       <v-btn dark to="/asteroids" color="lime darken-1">Asteroids</v-btn>
       <v-btn to="/messages" dark color="light-green darken-2">Messages</v-btn>
+      <v-btn to="/manager" dark color="indigo darken-3">Student Manager</v-btn>
       <v-spacer></v-spacer>
     </v-app-bar>
 
@@ -23,7 +24,7 @@
 // import Asteroids from './components/Asteroids.vue';
 
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     // Messages,

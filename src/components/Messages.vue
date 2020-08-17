@@ -13,7 +13,9 @@
           >
             <v-list-item-content>
               <v-list-item-title v-text="message.text"></v-list-item-title>
-              <v-list-item-subtitle v-text="message.user"></v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-text="message.user"
+              ></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -24,10 +26,10 @@
 
 <script>
 export default {
-  name: "Messages",
+  name: 'Messages',
 
   created() {
-    this.$store.dispatch("getMessages");
+    this.$store.dispatch('getMessages');
   },
 };
 </script>

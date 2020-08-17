@@ -12,7 +12,13 @@ export default new Vuex.Store({
         message: '',
         currentUser: '',
         users: [],
-        token: localStorage.getItem('token') || ''
+        token: localStorage.getItem('token') || '',
+        students: []
+    },
+    getters: {
+        students: state => state.students.map(stu => ({ ...stu, fullName: stu.name + ' ' + stu.lastname })),
+        findTheStudent: (state) => theId => state.students.find(ele => ele.id == theId),
+        isLoaded: (state) => !!state.students.length
     },
     // mutations are methods to modify the state object
     mutations: {
@@ -35,15 +41,25 @@ export default new Vuex.Store({
         logout(state) {
             state.token = '';
             localStorage.clear('token');
-        }
+        },
+        fillStudents(state, studentsComing) {
+            state.students = studentsComing;
+        },
+        addNewStudent(state, newStudent) {
+            state.students.push(newStudent);
+            console.log('students en store:', state.students);
+        },
+
 
 
     },
+
     // actions that go beyond modifying the state object
     actions: {
         getMessages({ commit }) {
             return (axios.get('http://localhost:3000/messages').then(res => {
                 let messages = res.data;
+                console.log('vienen los mensajes como objeto?', messages);
                 commit('updateMessages', messages);
             }));
 
@@ -52,8 +68,8 @@ export default new Vuex.Store({
             axios.post('http://localhost:3000/messages', {
                 text: dataComing.text,
             }).then(response => {
-                //aqui captura nombre
-                let msg = response.data.text;
+                let msg = response.data;
+
                 commit('newMessage', msg);
             });
 
@@ -76,6 +92,18 @@ export default new Vuex.Store({
                 localStorage.setItem('token', res.data);
                 axios.defaults.headers.common['Authorization'] = res.data;
                 commit('auth', res.data);
+            });
+        },
+        getStudents({ commit }) {
+            axios.get('http://localhost:3000/students').then((res) => {
+                let studentsComing = res.data.students;
+                commit('fillStudents', studentsComing);
+            });
+        },
+        newStudent({ commit }) {
+            axios.post('http://localhost:3000/students').then(res => {
+                let newStudent = res.data;
+                commit('addNewStudent', newStudent);
             });
         }
 
